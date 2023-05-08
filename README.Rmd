@@ -1,0 +1,72 @@
+---
+output: github_document
+---
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# `combTMB`:Combined Models using Template Model Builder 
+
+> [Deoclecio J. Amorim](https://github.com/deoclecioamorim) -
+> [deocleciojardim@usp.br](mailto:deocleciojardim@usp.br), ESALQ-USP
+
+
+The `combTMB` is an R package that implements an extended random effects approach to model repeated, overdispersed binary and count data (called combined models). Furthermore, fit linear and generalized linear mixed. The adjustment of the models is done by maximum likelihood with [TMB](https://github.com/kaskr/adcomp) (Template Model Builder). A common application is for superdispersed and correlated longitudinal data. See Molenberghs, G., Verbeke, G. and Demetrio, C.G. (2007) <doi:10.1007/s10985-007-9064-y> and Molenberghs et al. (2012) <doi:10.1016/j.jmva.2012.05.005>.
+
+
+Joint work with [Afrânio Márcio Corrêa Vieira](https://www.des.ufscar.br/departamento/docentes/afranio-marcio-correa-vieira) and
+[Clarice G.B. Demétrio](http://ce.esalq.usp.br/equipe/clarice-garcia-borges-demetrio).
+
+## Installation
+
+Assuming you have a [C++ compiler](https://support.rstudio.com/hc/en-us/articles/200486498-Package-Development-Prerequisites) installed, you can install the development version of combTMB like so:
+
+
+```{r, eval=FALSE}
+# install.packages("remotes")
+remotes::install_github("deoclecioamorim/combTMB", dependencies = TRUE)
+```
+
+## Basic use
+
+The syntax of combTMB is very similar to the [lme4](https://github.com/lme4/lme4/) and [glmmTMB](https://github.com/glmmTMB/glmmTMB) packages. The main function is `combTMB(...)`.
+
+```{r example}
+library(combTMB)
+# Poisson-Normal model --------------------------------------------------------
+m1 <- combTMB(OT ~ Period+(1|Donor), family=poisson(), data=embryos)
+summary(m1)
+# Methods --------------------------------------------------------------------
+print(m1)
+summary(m1)
+# Basic sanity checks on our model--------------------------------------------
+sanitycombTMB(m1)
+# Combined model: Poisson-Gamma-Normal model ---------------------------------
+m2 <- combTMB(OT ~ Period+(1|Donor), family=poigamma(), data=embryos)
+# Methods --------------------------------------------------------------------
+print(m2)
+summary(m2)
+# Basic sanity checks on our model--------------------------------------------
+sanitycombTMB(m2)
+```
+
+
+Currently, the methods implemented for `"combTMB"` objects are
+
+```{r methods}
+methods(class = "combTMB")
+```
+
+
+## License ##
+
+The `combTMB` package is licensed under the [GNU General Public
+License, version 3](https://www.gnu.org/licenses/gpl-3.0.html), see file `LICENSE.md`, © 2022 Deoclecio J. Amorim.
+
